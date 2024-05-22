@@ -61,6 +61,60 @@ namespace MyTasks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Informe o nome da task.
+        /// </summary>
+        internal static string AddTaskDialogLabel {
+            get {
+                return ResourceManager.GetString("AddTaskDialogLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adicionar task importante.
+        /// </summary>
+        internal static string AddTaskImportantDialogTitle {
+            get {
+                return ResourceManager.GetString("AddTaskImportantDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Adicionar task urgente.
+        /// </summary>
+        internal static string AddTaskUrgentDialogTitle {
+            get {
+                return ResourceManager.GetString("AddTaskUrgentDialogTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importante (CTRL + ALT + 2).
+        /// </summary>
+        internal static string PackageImportantText {
+            get {
+                return ResourceManager.GetString("PackageImportantText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Urgente (CTRL + ALT + 1).
+        /// </summary>
+        internal static string PackageUrgentText {
+            get {
+                return ResourceManager.GetString("PackageUrgentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My tasks.
+        /// </summary>
+        internal static string RootText {
+            get {
+                return ResourceManager.GetString("RootText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon TrayIcon {

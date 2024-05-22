@@ -1,7 +1,8 @@
-﻿
-
+﻿using Microsoft.Win32;
+using System.Reflection;
 
 namespace MyTasks;
+
 internal class Config
 {
     readonly Dictionary<string, List<string>> _keyValues = new();
@@ -28,7 +29,10 @@ internal class Config
     public void Load()
     {
         if (Exists())
+        {
             LoadKeyValuePairs();
+            ConfigureEnviroment();
+        }
     }
 
     private bool Exists()
@@ -71,7 +75,7 @@ internal class Config
     {
         get
         {
-            var key = "working-folder";
+            var key = AppConstants.CONFIG_KEY_WORKINGFOLDER;
             if (_keyValues.ContainsKey(key))
                 return _keyValues[key][0];
             
@@ -81,5 +85,28 @@ internal class Config
         }
     }
 
-    
+    private void ConfigureEnviroment()
+    {
+        ConfigureStartupWithWindows();
+    }
+
+    private void ConfigureStartupWithWindows()
+    {
+        var key = AppConstants.CONFIG_KEY_AUTOSTART;
+        if (_keyValues.ContainsKey(key))
+            SetStartup(_keyValues[key][0].Equals("true", StringComparison.OrdinalIgnoreCase));
+    }
+
+    private void SetStartup(bool add)
+    {
+        string appPath = Assembly.GetExecutingAssembly().Location;
+        RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+
+        if (add)
+            key?.SetValue(AppConstants.APP_NAME, appPath);
+        else
+            key?.DeleteValue(AppConstants.APP_NAME, false);
+    }
+
+
 }

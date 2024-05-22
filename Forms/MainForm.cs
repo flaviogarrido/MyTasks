@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using MyTasks.Models;
+using System.Runtime.InteropServices;
 
 namespace MyTasks.Forms;
 
@@ -10,10 +11,14 @@ public partial class MainForm : Form
     [DllImport("user32.dll")]
     static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
-    const int HOTKEY_ID = 1;
+    const int HOTKEY_0 = 0;
+    const int HOTKEY_1 = 1;
+    const int HOTKEY_2 = 2;
 
     ExplorerForm? _taskForm;
     CancellationTokenSource _cancellationTokenSource = new();
+
+    static MainForm _thisForm;
 
     public MainForm()
     {
@@ -22,6 +27,8 @@ public partial class MainForm : Form
         InitializeMenu();
         InitializeHotkey();
         InitializeNotifyIcon();
+
+        _thisForm = this;
     }
 
     private void InitializeForm()
@@ -91,17 +98,63 @@ public partial class MainForm : Form
     {
         // 0x0001 = MOD_ALT
         // 0x0002 = MOD_CONTROL
-        // 0x31 = 1
-        RegisterHotKey(this.Handle, HOTKEY_ID, 0x0001 | 0x0002, 0x31);
+        RegisterHotKey(this.Handle, HOTKEY_0, 0x0001 | 0x0002, 0x30); // 0x30 = 0
+        RegisterHotKey(this.Handle, HOTKEY_1, 0x0001 | 0x0002, 0x31); // 0x31 = 1
+        RegisterHotKey(this.Handle, HOTKEY_2, 0x0001 | 0x0002, 0x32); // 0x32 = 2
     }
 
     protected override void WndProc(ref Message m)
     {
         base.WndProc(ref m);
-        
+
         // 0x0312 é o código de mensagem para WM_HOTKEY
-        if (m.Msg == 0x0312 && m.WParam.ToInt32() == HOTKEY_ID) 
-            MessageBox.Show("Hotkey CTRL + ALT + 1 pressionada!");
+        if (m.Msg != 0x0312)
+            return;
+
+        switch (m.WParam.ToInt32())
+        {
+            case HOTKEY_0:
+                Hotkey0();
+                break;
+            case HOTKEY_1:
+                Hotkey1();
+                break;
+            case HOTKEY_2:
+                Hotkey2();
+                break;
+        }
+    }
+
+    private static void Hotkey0() //Hotkey CTRL + ALT + 0
+        => AlternateWindowState();
+
+    private static void Hotkey1() //Hotkey CTRL + ALT + 1
+        => AddUrgentTask();
+
+    private static void Hotkey2() //Hotkey CTRL + ALT + 2
+        => AddImportantTask();
+
+    private static void AlternateWindowState()
+    {
+        if (_thisForm.WindowState == FormWindowState.Minimized)
+        {
+            _thisForm.Show();
+            _thisForm.WindowState = FormWindowState.Maximized;
+        }
+        else
+            _thisForm.WindowState = FormWindowState.Minimized;
+    }
+
+    private static void AddUrgentTask()
+    {
+        var text = Prompt.ShowDialog(Properties.Resources.AddTaskUrgentDialogTitle, Properties.Resources.AddTaskDialogLabel);
+        TreeViewHandler.AddTask(text, MyTaskType.Urgent);
+    }
+
+    private static void AddImportantTask()
+    {
+        var text = Prompt.ShowDialog(Properties.Resources.AddTaskImportantDialogTitle, Properties.Resources.AddTaskDialogLabel);
+        TreeViewHandler.AddTask(text, MyTaskType.Important);
     }
 
     private void InitializeNotifyIcon()
@@ -140,7 +193,9 @@ public partial class MainForm : Form
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
-        UnregisterHotKey(this.Handle, HOTKEY_ID);
+        UnregisterHotKey(this.Handle, HOTKEY_0);
+        UnregisterHotKey(this.Handle, HOTKEY_1);
+        UnregisterHotKey(this.Handle, HOTKEY_2);
         MyTasksNotifyIcon?.Dispose();
         base.OnFormClosing(e);
     }
