@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace MyTasks;
+﻿namespace MyTasks;
 
 internal class AppConstants
 {
@@ -11,10 +9,12 @@ internal class AppConstants
     public const string CONFIG_FOLDER = "Configs";
     public const string CONFIG_DEFAULT_FILENAME = "MyTasks.cfg";
     public const string CONFIG_DEFAULT_WORKINGFOLDER = "Working";
+    public const string CONFIG_DEFAULT_WORKINGFILENAME = "MyTasks.tree";
 
     public const char CONFIG_COMMENT_CHAR = '#';
     public const char CONFIG_SEPARATOR_CHAR = '=';
 
     public const string CONFIG_KEY_AUTOSTART = "auto-start";
     public const string CONFIG_KEY_WORKINGFOLDER = "working-folder";
+    public const string CONFIG_KEY_WORKINGFILENAME = "working-filename";
 }

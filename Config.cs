@@ -85,6 +85,20 @@ internal class Config
         }
     }
 
+    public string WorkingFileFullName
+    {
+        get
+        {
+            var key = AppConstants.CONFIG_KEY_WORKINGFILENAME;
+            if (_keyValues.ContainsKey(key))
+                return _keyValues[key][0];
+            
+            return Path.Combine(
+                WorkingFolder,
+                AppConstants.CONFIG_DEFAULT_WORKINGFILENAME);
+        }
+    }
+
     private void ConfigureEnviroment()
     {
         ConfigureStartupWithWindows();

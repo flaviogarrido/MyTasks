@@ -17,6 +17,9 @@ public partial class SettingsForm : Form
 
     private void InitializeForm()
     {
+        Icon = Properties.Resources.preferences;
+        ShowInTaskbar = false;
+
         CheckConfigFile();
 
         Text = $"settings @ {Config.Default.GetFullPathAndFileName()}";

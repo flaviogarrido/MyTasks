@@ -1,4 +1,5 @@
 ﻿using FastColoredTextBoxNS;
+using MyTasks.Tree;
 
 namespace MyTasks.Forms;
 
@@ -34,10 +35,14 @@ internal class NotepadHandler
         }
     }
 
-    internal void Load(FileInfo file, int linha = 0)
+    internal void Load(MyTreeItem treeItem, int linha = 0)
     {
-        _file = file;
+        _file = treeItem.File;
 
+        if (_file == null) 
+            return;
+
+        _file.Refresh();
         if (!_file.Exists)
             return;
 

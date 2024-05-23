@@ -1,4 +1,6 @@
-﻿namespace MyTasks.Forms;
+﻿using MyTasks.Tree;
+
+namespace MyTasks.Forms;
 
 public partial class ExplorerForm : Form
 {
@@ -17,6 +19,7 @@ public partial class ExplorerForm : Form
         Text = $"explorer @ {Config.Default.WorkingFolder}";
         MdiParent = parentForm;
         WindowState = FormWindowState.Maximized;
+        Icon = Properties.Resources.DatabaseProject;
 
         _treeviewHandler = new(MySplitContainer.Panel1);
         _treeviewHandler.Initialize();
@@ -26,7 +29,7 @@ public partial class ExplorerForm : Form
         _notepadHandler.Initialize();
     }
 
-    private void TreeviewHandler_OnRequestFileOpen(object? sender, FileInfo e)
+    private void TreeviewHandler_OnRequestFileOpen(object? sender, MyTreeItem e)
     {
         _notepadHandler?.Load(e);
     }

@@ -34,6 +34,7 @@ public partial class MainForm : Form
     private void InitializeForm()
     {
         Text = $"My tasks - v{AppConstants.VERSION}";
+        Icon = Properties.Resources.Alfred;
         WindowState = FormWindowState.Maximized;
 
         MenuExplorer_Click(this, EventArgs.Empty);
@@ -148,12 +149,14 @@ public partial class MainForm : Form
     private static void AddUrgentTask()
     {
         var text = Prompt.ShowDialog(Properties.Resources.AddTaskUrgentDialogTitle, Properties.Resources.AddTaskDialogLabel);
+        text = text.Replace(';', '.');
         TreeViewHandler.AddTask(text, MyTaskType.Urgent);
     }
 
     private static void AddImportantTask()
     {
         var text = Prompt.ShowDialog(Properties.Resources.AddTaskImportantDialogTitle, Properties.Resources.AddTaskDialogLabel);
+        text = text.Replace(';', '.');
         TreeViewHandler.AddTask(text, MyTaskType.Important);
     }
 
@@ -166,8 +169,8 @@ public partial class MainForm : Form
         MyTasksContextMenuStrip.Items.Add("E&xit", null, MenuExit_Click);
 
         MyTasksNotifyIcon = new NotifyIcon();
-        MyTasksNotifyIcon.Text = "Minha Aplicação";
-        MyTasksNotifyIcon.Icon = Properties.Resources.TrayIcon;
+        MyTasksNotifyIcon.Text = "My Tasks";
+        MyTasksNotifyIcon.Icon = Properties.Resources.Alfred;
         MyTasksNotifyIcon.ContextMenuStrip = MyTasksContextMenuStrip;
         MyTasksNotifyIcon.DoubleClick += MyTasksNotifyIcon_DoubleClick;
         MyTasksNotifyIcon.Visible = true;
