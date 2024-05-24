@@ -5,11 +5,20 @@ namespace MyTasks.Forms;
 
 internal class NotepadHandler
 {
+    Label _titleLabel;
     FastColoredTextBox _notepad;
     FileInfo? _file;
 
     public NotepadHandler(Control control)
     {
+        _titleLabel = new Label()
+        {
+            Dock = DockStyle.Top,
+            Size = new Size(100, control.Font.Height * 2 + 4),
+            Text = string.Empty,
+            TextAlign = ContentAlignment.MiddleCenter,
+        };
+
         _notepad = new()
         {
             Dock = DockStyle.Fill,
@@ -21,7 +30,10 @@ internal class NotepadHandler
             PaddingBackColor = Color.DarkGray,
         };
         _notepad.TextChanged += Notepad_TextChanged;
+
+        control.Controls.Add(_titleLabel);
         control.Controls.Add(_notepad);
+        _notepad.BringToFront();
     }
 
     internal void Initialize()
@@ -51,6 +63,7 @@ internal class NotepadHandler
         if (!_file.Exists)
             return;
 
+        _titleLabel.Text = treeItem.Name + "\n" + _file.FullName;
         _notepad.Text = File.ReadAllText(_file.FullName);
 
         if (linha > 0)

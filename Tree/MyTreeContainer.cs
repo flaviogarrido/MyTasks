@@ -14,13 +14,13 @@ internal class MyTreeContainer
         if (_root == null)
         {
 
-            _root = new MyTreeItem(Properties.Resources.RootText, Guid.Empty);
+            _root = new MyTreeItem(Properties.Resources.TreeRootText, Guid.Empty);
             _root.Style = MyTreeItemStyleInfo.Root;
 
-            _pkgUrgent = MyTreeItem.CreatePackage(Properties.Resources.PackageUrgentText, _root.Id);
+            _pkgUrgent = MyTreeItem.CreatePackage(Properties.Resources.TreePackageUrgentText, _root.Id);
             _pkgUrgent.Style = MyTreeItemStyleInfo.DocumentWarning;
 
-            _pkgImportant = MyTreeItem.CreatePackage(Properties.Resources.PackageImportantText, _root.Id);
+            _pkgImportant = MyTreeItem.CreatePackage(Properties.Resources.TreePackageImportantText, _root.Id);
             _pkgImportant.Style = MyTreeItemStyleInfo.DocumentPinned;
 
             _root.Items.Add(_pkgUrgent);

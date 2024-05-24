@@ -5,11 +5,16 @@ namespace MyTasks.Forms;
 
 public partial class MainForm : Form
 {
+    [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+    static extern uint SetThreadExecutionState(uint esFlags);
     [DllImport("user32.dll")]
     static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
-    
     [DllImport("user32.dll")]
     static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+
+    const uint ES_CONTINUOUS = 0x80000000;
+    const uint ES_SYSTEM_REQUIRED = 0x00000001;
+    const uint ES_DISPLAY_REQUIRED = 0x00000002;
 
     const int HOTKEY_0 = 0;
     const int HOTKEY_1 = 1;
@@ -33,6 +38,8 @@ public partial class MainForm : Form
 
     private void InitializeForm()
     {
+        SetThreadExecutionState(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED);
+
         Text = $"My tasks - v{AppConstants.VERSION}";
         Icon = Properties.Resources.Alfred;
         WindowState = FormWindowState.Maximized;
@@ -196,6 +203,8 @@ public partial class MainForm : Form
 
     protected override void OnFormClosing(FormClosingEventArgs e)
     {
+        SetThreadExecutionState(ES_CONTINUOUS);
+
         UnregisterHotKey(this.Handle, HOTKEY_0);
         UnregisterHotKey(this.Handle, HOTKEY_1);
         UnregisterHotKey(this.Handle, HOTKEY_2);

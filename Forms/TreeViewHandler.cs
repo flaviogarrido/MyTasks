@@ -6,11 +6,10 @@ namespace MyTasks.Forms;
 
 internal class TreeViewHandler
 {
-    TreeView _treeview;
     MyTreeContainer _treeContainer;
+    TreeView _treeview;
 
     static FileInfo _treeFile;
-
     static TreeView _instanceTreeView;
 
     public event EventHandler<MyTreeItem>? OnRequestFileOpen;
@@ -21,23 +20,78 @@ internal class TreeViewHandler
         _treeFile = new FileInfo(Config.Default.WorkingFileFullName);
         _treeContainer = new();
 
+        _treeview = CreateTreeView();
+        _instanceTreeView = _treeview;
+        control.Controls.Add(_treeview);
 
-        _treeview = new()
+        ConfigureImageList();
+    }
+
+    TreeView CreateTreeView()
+    {
+        var treeview = new TreeView()
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
             TabIndex = 0,
             ForeColor = Color.LightGreen,
             BackColor = Color.Black,
+            LabelEdit = true,
+            AllowDrop = true,
         };
-        _treeview.KeyDown += Treeview_KeyDown;
-        _treeview.NodeMouseClick += TreeView_NodeMouseClick;
-        _treeview.NodeMouseDoubleClick += TreeView_NodeMouseDoubleClick;
-        control.Controls.Add(_treeview);
+        treeview.KeyDown += Treeview_KeyDown;
+        treeview.NodeMouseClick += TreeView_NodeMouseClick;
+        treeview.NodeMouseDoubleClick += TreeView_NodeMouseDoubleClick;
+        treeview.AfterLabelEdit += Treeview_AfterLabelEdit;
+        treeview.ItemDrag += new ItemDragEventHandler(Treeview_ItemDrag);
+        treeview.DragEnter += new DragEventHandler(Treeview_DragEnter);
+        treeview.DragOver += new DragEventHandler(Treeview_DragOver);
+        treeview.DragDrop += new DragEventHandler(Treeview_DragDrop);
+        return treeview;
+    }
 
-        ConfigureImageList();
+    private void Treeview_ItemDrag(object? sender, ItemDragEventArgs e)
+    {
+        _treeview.DoDragDrop(e.Item, DragDropEffects.Move);
+    }
 
-        _instanceTreeView = _treeview;
+    private void Treeview_DragEnter(object? sender, DragEventArgs e)
+    {
+        if (e.Data.GetDataPresent(typeof(TreeNode)))
+            e.Effect = DragDropEffects.Move;
+        else
+            e.Effect = DragDropEffects.None;
+    }
+
+    private void Treeview_DragOver(object? sender, DragEventArgs e)
+    {
+        Point targetPoint = _treeview.PointToClient(new Point(e.X, e.Y));
+
+        // Seleciona o nó no local do ponteiro do mouse
+        _treeview.SelectedNode = _treeview.GetNodeAt(targetPoint);
+    }
+
+    private void Treeview_DragDrop(object? sender, DragEventArgs e)
+    {
+        if (!e.Data.GetDataPresent(typeof(TreeNode)))
+            return;
+
+        TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
+        // Obtem a posição do ponteiro do mouse sobre o TreeView
+        Point targetPoint = _treeview.PointToClient(new Point(e.X, e.Y));
+        TreeNode targetNode = _treeview.GetNodeAt(targetPoint);
+
+        if (targetNode != null && draggedNode != targetNode)
+        {
+            // Remove o nó arrastado de sua posição original
+            draggedNode.Remove();
+            // Insere o nó arrastado abaixo do nó alvo
+            targetNode.Nodes.Add(draggedNode);
+            targetNode.Expand();
+
+            // Atualiza o nó selecionado
+            _treeview.SelectedNode = draggedNode;
+        }
     }
 
     void ConfigureImageList()
@@ -109,14 +163,33 @@ internal class TreeViewHandler
 
     private void Treeview_KeyDown(object? sender, KeyEventArgs e)
     {
-        if (e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)) 
-        {
-            var currentFont = _treeview.Font;
-            var newSize = currentFont.Size + (e.KeyCode == Keys.Up ? 1 : -1);
-            if (newSize < 1) newSize = 1;
-            _treeview.Font = new Font(currentFont.FontFamily, newSize, currentFont.Style);
-            e.Handled = true;
-        }
+        if (e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down))
+            ResizeFont(e);
+
+        else if (e.KeyCode == Keys.Delete && _treeview.SelectedNode != null)
+            DeleteTreeItem();
+
+        else if (e.KeyCode == Keys.F2 && _treeview.SelectedNode != null)
+            RenameTreeItem();
+
+    }
+
+    private void ResizeFont(KeyEventArgs e)
+    {
+        var currentFont = _treeview.Font;
+        var newSize = currentFont.Size + (e.KeyCode == Keys.Up ? 1 : -1);
+        if (newSize < 1) newSize = 1;
+        _treeview.Font = new Font(currentFont.FontFamily, newSize, currentFont.Style);
+        e.Handled = true;
+    }
+
+    private void DeleteTreeItem()
+    {
+    }
+
+    private void RenameTreeItem()
+    {
+        _treeview.SelectedNode.BeginEdit();
     }
 
     private void TreeView_NodeMouseClick(object? sender, TreeNodeMouseClickEventArgs e)
@@ -124,7 +197,7 @@ internal class TreeViewHandler
         if (e.Button == MouseButtons.Right)
         {
             _treeview.SelectedNode = e.Node;
-            //exibir menu de contexto
+            TreeViewContextMenuHandler.Show(_treeview, e.Node, e.Location);
         }
     }
 
@@ -141,16 +214,37 @@ internal class TreeViewHandler
 
     }
 
+    private void Treeview_AfterLabelEdit(object? sender, NodeLabelEditEventArgs e)
+    {
+        if (e.Label == null)
+        {
+            e.CancelEdit = true;
+            return;
+        }
+
+        if (e.Label.Trim().Length == 0)
+        {
+            MessageBox.Show(
+                Properties.Resources.ErrorMsgEmptyName,
+                Properties.Resources.TreeErrorValidation,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+
+            e.CancelEdit = true;
+            e.Node?.BeginEdit();
+        }
+    }
+
     internal static bool AddTask(string text, MyTaskType myTaskInfo)
     {
         var findText = string.Empty;
         switch (myTaskInfo)
         {
             case MyTaskType.Urgent:
-                findText = Properties.Resources.PackageUrgentText;
+                findText = Properties.Resources.TreePackageUrgentText;
                 break;
             case MyTaskType.Important:
-                findText = Properties.Resources.PackageImportantText;
+                findText = Properties.Resources.TreePackageImportantText;
                 break;
         }
 
@@ -193,7 +287,7 @@ internal class TreeViewHandler
         File.WriteAllText(_treeFile.FullName, sb.ToString());
     }
 
-    private static void Sort(TreeNode node, SortOrder order = SortOrder.Ascending)
+    internal static void Sort(TreeNode node, SortOrder order = SortOrder.Ascending)
     {
         _instanceTreeView.SuspendLayout();
 
@@ -214,7 +308,7 @@ internal class TreeViewHandler
         _instanceTreeView.ResumeLayout();
     }
 
-    private static TreeNode? FindNodeByName(TreeNodeCollection nodes, string name, bool recursive = false)
+    internal static TreeNode? FindNodeByName(TreeNodeCollection nodes, string name, bool recursive = false)
     {
         foreach (TreeNode node in nodes)
         {

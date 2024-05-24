@@ -468,6 +468,96 @@ namespace MyTasks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expandir todos.
+        /// </summary>
+        internal static string CTExpandAll {
+            get {
+                return ResourceManager.GetString("CTExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Recolher.
+        /// </summary>
+        internal static string CTExpandCollapse {
+            get {
+                return ResourceManager.GetString("CTExpandCollapse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exportar estrutura para o Clipboard.
+        /// </summary>
+        internal static string CTExportTreeNode {
+            get {
+                return ResourceManager.GetString("CTExportTreeNode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Criar novo item.
+        /// </summary>
+        internal static string CTMenuCreateTreeItem {
+            get {
+                return ResourceManager.GetString("CTMenuCreateTreeItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localizar.
+        /// </summary>
+        internal static string CTMenuFind {
+            get {
+                return ResourceManager.GetString("CTMenuFind", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localizar próximo.
+        /// </summary>
+        internal static string CTMenuFindNext {
+            get {
+                return ResourceManager.GetString("CTMenuFindNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localizar anterior.
+        /// </summary>
+        internal static string CTMenuFindPrev {
+            get {
+                return ResourceManager.GetString("CTMenuFindPrev", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remover.
+        /// </summary>
+        internal static string CTMenuRemoveTreeItem {
+            get {
+                return ResourceManager.GetString("CTMenuRemoveTreeItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Renomear.
+        /// </summary>
+        internal static string CTMenuRenameTreeItem {
+            get {
+                return ResourceManager.GetString("CTMenuRenameTreeItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ordernar.
+        /// </summary>
+        internal static string CTSort {
+            get {
+                return ResourceManager.GetString("CTSort", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon cut {
@@ -1074,6 +1164,15 @@ namespace MyTasks.Properties {
             get {
                 object obj = ResourceManager.GetObject("error", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to O nome do item não pode ser vazio.
+        /// </summary>
+        internal static string ErrorMsgEmptyName {
+            get {
+                return ResourceManager.GetString("ErrorMsgEmptyName", resourceCulture);
             }
         }
         
@@ -2648,24 +2747,6 @@ namespace MyTasks.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Importante (CTRL + ALT + 2).
-        /// </summary>
-        internal static string PackageImportantText {
-            get {
-                return ResourceManager.GetString("PackageImportantText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Urgente (CTRL + ALT + 1).
-        /// </summary>
-        internal static string PackageUrgentText {
-            get {
-                return ResourceManager.GetString("PackageUrgentText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon paste {
@@ -2792,15 +2873,6 @@ namespace MyTasks.Properties {
             get {
                 object obj = ResourceManager.GetObject("replace2", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to My tasks....
-        /// </summary>
-        internal static string RootText {
-            get {
-                return ResourceManager.GetString("RootText", resourceCulture);
             }
         }
         
@@ -3461,6 +3533,42 @@ namespace MyTasks.Properties {
             get {
                 object obj = ResourceManager.GetObject("TrayIcon", resourceCulture);
                 return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Erro de validação.
+        /// </summary>
+        internal static string TreeErrorValidation {
+            get {
+                return ResourceManager.GetString("TreeErrorValidation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Importante (CTRL + ALT + 2).
+        /// </summary>
+        internal static string TreePackageImportantText {
+            get {
+                return ResourceManager.GetString("TreePackageImportantText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Urgente (CTRL + ALT + 1).
+        /// </summary>
+        internal static string TreePackageUrgentText {
+            get {
+                return ResourceManager.GetString("TreePackageUrgentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My tasks....
+        /// </summary>
+        internal static string TreeRootText {
+            get {
+                return ResourceManager.GetString("TreeRootText", resourceCulture);
             }
         }
         
