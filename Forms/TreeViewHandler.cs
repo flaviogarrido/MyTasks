@@ -27,7 +27,10 @@ internal class TreeViewHandler
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
             TabIndex = 0,
+            ForeColor = Color.LightGreen,
+            BackColor = Color.Black,
         };
+        _treeview.KeyDown += Treeview_KeyDown;
         _treeview.NodeMouseClick += TreeView_NodeMouseClick;
         _treeview.NodeMouseDoubleClick += TreeView_NodeMouseDoubleClick;
         control.Controls.Add(_treeview);
@@ -41,7 +44,7 @@ internal class TreeViewHandler
     {
         var imageList = new ImageList();
         imageList.ColorDepth = ColorDepth.Depth32Bit;
-        imageList.ImageSize = new Size(16, 16);
+        imageList.ImageSize = new Size(24, 24);
 
         imageList.Images.Add("Root", Properties.Resources.folder_document);
         imageList.Images.Add("Document", Properties.Resources.document);
@@ -87,8 +90,8 @@ internal class TreeViewHandler
     {
         if (treeItem.Style == MyTreeItemStyleInfo.Root)
         {
-            treeNode.NodeFont = new Font("Arial", 8, FontStyle.Bold);
-            treeNode.ForeColor = Color.DarkBlue;
+            //treeNode.NodeFont = new Font("Arial", 8, FontStyle.Bold);
+            treeNode.ForeColor = Color.LightBlue;
         }
     }
 
@@ -102,6 +105,18 @@ internal class TreeViewHandler
                 node.Nodes.Add(CreateTreeNode(subItems, includeSubItems));
 
         return node;
+    }
+
+    private void Treeview_KeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down)) 
+        {
+            var currentFont = _treeview.Font;
+            var newSize = currentFont.Size + (e.KeyCode == Keys.Up ? 1 : -1);
+            if (newSize < 1) newSize = 1;
+            _treeview.Font = new Font(currentFont.FontFamily, newSize, currentFont.Style);
+            e.Handled = true;
+        }
     }
 
     private void TreeView_NodeMouseClick(object? sender, TreeNodeMouseClickEventArgs e)

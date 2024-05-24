@@ -76,7 +76,7 @@ partial class MainForm
         // 
         MenuDarkScreen.Name = "MenuDarkScreen";
         MenuDarkScreen.Size = new Size(180, 22);
-        MenuDarkScreen.Text = "Dark screen";
+        MenuDarkScreen.Text = "&Dark screen";
         // 
         // toolStripMenuItem1
         // 

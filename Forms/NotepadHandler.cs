@@ -14,6 +14,11 @@ internal class NotepadHandler
         {
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
+            ForeColor = Color.LightGreen,
+            BackColor = Color.Black,
+            LineNumberColor = Color.LightSeaGreen,
+            BookmarkColor = Color.DarkGreen,
+            PaddingBackColor = Color.DarkGray,
         };
         _notepad.TextChanged += Notepad_TextChanged;
         control.Controls.Add(_notepad);
