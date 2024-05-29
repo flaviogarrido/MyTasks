@@ -17,6 +17,7 @@ internal class NotepadHandler
             Size = new Size(100, control.Font.Height * 2 + 4),
             Text = string.Empty,
             TextAlign = ContentAlignment.MiddleCenter,
+            BackColor = Color.DarkGray,
         };
 
         _notepad = new()
@@ -28,6 +29,9 @@ internal class NotepadHandler
             LineNumberColor = Color.LightSeaGreen,
             BookmarkColor = Color.DarkGreen,
             PaddingBackColor = Color.DarkGray,
+            IndentBackColor = Color.Black,
+
+            WordWrap = true,
         };
         _notepad.TextChanged += Notepad_TextChanged;
 

@@ -12,9 +12,17 @@ public partial class DarkForm : Form
     //const uint ES_DISPLAY_REQUIRED = 0x00000002;
 
 
-    public DarkForm()
+    public DarkForm(bool showClose = false)
     {
+        StartPosition = FormStartPosition.Manual;
         InitializeComponent();
+
+        if (!showClose)
+            CloseButton.Visible = false;
+        else
+            CloseButton.Click += (sender, e) => { Close(); };
+
+        DoubleClick += (sender, e) => { Close(); };
     }
 
     //protected override void OnLoad(EventArgs e)

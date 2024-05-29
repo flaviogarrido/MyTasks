@@ -83,8 +83,14 @@ public partial class MainForm : Form
 
     private void MenuDarkScreen_Click(object? sender, EventArgs e)
     {
-        var form = new DarkForm();
-        form.ShowDialog();
+        foreach (var screen in Screen.AllScreens)
+        {
+            var form = new DarkForm()
+            {
+                Bounds = screen.Bounds,
+            };
+            form.Show();
+        }
     }
 
     private void MenuSettings_Click(object? sender, EventArgs e)

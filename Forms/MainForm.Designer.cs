@@ -46,10 +46,12 @@ partial class MainForm
         // 
         // MainMenu
         // 
+        MainMenu.ImageScalingSize = new Size(24, 24);
         MainMenu.Items.AddRange(new ToolStripItem[] { MenuTools, MenuAbout });
         MainMenu.Location = new Point(0, 0);
         MainMenu.Name = "MainMenu";
-        MainMenu.Size = new Size(722, 24);
+        MainMenu.Padding = new Padding(9, 3, 0, 3);
+        MainMenu.Size = new Size(1031, 35);
         MainMenu.TabIndex = 1;
         MainMenu.Text = "menuStrip1";
         // 
@@ -57,53 +59,55 @@ partial class MainForm
         // 
         MenuTools.DropDownItems.AddRange(new ToolStripItem[] { MenuExplorer, MenuForceRefresh, MenuDarkScreen, toolStripMenuItem1, MenuSettings, toolStripMenuItem2, MenuExit });
         MenuTools.Name = "MenuTools";
-        MenuTools.Size = new Size(46, 20);
+        MenuTools.Size = new Size(69, 29);
         MenuTools.Text = "&Tools";
         // 
         // MenuExplorer
         // 
         MenuExplorer.Name = "MenuExplorer";
-        MenuExplorer.Size = new Size(180, 22);
+        MenuExplorer.Size = new Size(324, 34);
         MenuExplorer.Text = "&Explorer";
         // 
         // MenuForceRefresh
         // 
         MenuForceRefresh.Name = "MenuForceRefresh";
-        MenuForceRefresh.Size = new Size(180, 22);
+        MenuForceRefresh.ShortcutKeys = Keys.Control | Keys.Shift | Keys.F;
+        MenuForceRefresh.Size = new Size(324, 34);
         MenuForceRefresh.Text = "&Force refresh";
         // 
         // MenuDarkScreen
         // 
         MenuDarkScreen.Name = "MenuDarkScreen";
-        MenuDarkScreen.Size = new Size(180, 22);
+        MenuDarkScreen.ShortcutKeys = Keys.Control | Keys.Shift | Keys.D;
+        MenuDarkScreen.Size = new Size(324, 34);
         MenuDarkScreen.Text = "&Dark screen";
         // 
         // toolStripMenuItem1
         // 
         toolStripMenuItem1.Name = "toolStripMenuItem1";
-        toolStripMenuItem1.Size = new Size(177, 6);
+        toolStripMenuItem1.Size = new Size(321, 6);
         // 
         // MenuSettings
         // 
         MenuSettings.Name = "MenuSettings";
-        MenuSettings.Size = new Size(180, 22);
+        MenuSettings.Size = new Size(324, 34);
         MenuSettings.Text = "&Settings";
         // 
         // toolStripMenuItem2
         // 
         toolStripMenuItem2.Name = "toolStripMenuItem2";
-        toolStripMenuItem2.Size = new Size(177, 6);
+        toolStripMenuItem2.Size = new Size(321, 6);
         // 
         // MenuExit
         // 
         MenuExit.Name = "MenuExit";
-        MenuExit.Size = new Size(180, 22);
+        MenuExit.Size = new Size(324, 34);
         MenuExit.Text = "E&xit";
         // 
         // MenuAbout
         // 
         MenuAbout.Name = "MenuAbout";
-        MenuAbout.Size = new Size(52, 20);
+        MenuAbout.Size = new Size(78, 29);
         MenuAbout.Text = "&About";
         // 
         // MyTasksNotifyIcon
@@ -113,17 +117,19 @@ partial class MainForm
         // 
         // MyTasksContextMenuStrip
         // 
+        MyTasksContextMenuStrip.ImageScalingSize = new Size(24, 24);
         MyTasksContextMenuStrip.Name = "MyTasksContextMenuStrip";
         MyTasksContextMenuStrip.Size = new Size(61, 4);
         // 
         // MainForm
         // 
-        AutoScaleDimensions = new SizeF(7F, 15F);
+        AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(722, 539);
+        ClientSize = new Size(1031, 898);
         Controls.Add(MainMenu);
         IsMdiContainer = true;
         MainMenuStrip = MainMenu;
+        Margin = new Padding(4, 5, 4, 5);
         Name = "MainForm";
         StartPosition = FormStartPosition.CenterScreen;
         Text = "My Tasks";
