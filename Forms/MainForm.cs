@@ -32,6 +32,7 @@ public partial class MainForm : Form
         InitializeMenu();
         InitializeHotkey();
         InitializeNotifyIcon();
+        InitializeStatusBar();
 
         _thisForm = this;
     }
@@ -45,6 +46,12 @@ public partial class MainForm : Form
         WindowState = FormWindowState.Maximized;
 
         MenuExplorer_Click(this, EventArgs.Empty);
+    }
+
+    private void InitializeStatusBar()
+    {
+        MainStatusBar.BackColor = Config.Default.ColorTreeviewBackground();
+        MainStatusBar.ForeColor = Config.Default.ColorTreeviewForeground();
     }
 
     private void InitializeMenu()
@@ -76,7 +83,7 @@ public partial class MainForm : Form
     private void MenuForceRefresh_Click(object? sender, EventArgs e)
     {
         _taskForm?.Close();
-        
+
         Config.Default.Load();
         MenuExplorer_Click(this, EventArgs.Empty);
     }
@@ -216,5 +223,10 @@ public partial class MainForm : Form
         UnregisterHotKey(this.Handle, HOTKEY_2);
         MyTasksNotifyIcon?.Dispose();
         base.OnFormClosing(e);
+    }
+
+    private void MainTimer_Tick(object sender, EventArgs e)
+    {
+        ClockLabel.Text = DateTime.Now.ToString("HH:mm:ss");
     }
 }

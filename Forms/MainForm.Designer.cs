@@ -41,7 +41,11 @@ partial class MainForm
         MenuAbout = new ToolStripMenuItem();
         MyTasksNotifyIcon = new NotifyIcon(components);
         MyTasksContextMenuStrip = new ContextMenuStrip(components);
+        MainStatusBar = new StatusStrip();
+        ClockLabel = new ToolStripStatusLabel();
+        MainTimer = new System.Windows.Forms.Timer(components);
         MainMenu.SuspendLayout();
+        MainStatusBar.SuspendLayout();
         SuspendLayout();
         // 
         // MainMenu
@@ -121,11 +125,35 @@ partial class MainForm
         MyTasksContextMenuStrip.Name = "MyTasksContextMenuStrip";
         MyTasksContextMenuStrip.Size = new Size(61, 4);
         // 
+        // MainStatusBar
+        // 
+        MainStatusBar.ImageScalingSize = new Size(24, 24);
+        MainStatusBar.Items.AddRange(new ToolStripItem[] { ClockLabel });
+        MainStatusBar.Location = new Point(0, 870);
+        MainStatusBar.Name = "MainStatusBar";
+        MainStatusBar.Size = new Size(1031, 28);
+        MainStatusBar.TabIndex = 3;
+        MainStatusBar.Text = "statusStrip1";
+        // 
+        // ClockLabel
+        // 
+        ClockLabel.Font = new Font("Arial", 9F);
+        ClockLabel.Name = "ClockLabel";
+        ClockLabel.Size = new Size(56, 21);
+        ClockLabel.Text = "--:--:--";
+        // 
+        // MainTimer
+        // 
+        MainTimer.Enabled = true;
+        MainTimer.Interval = 1000;
+        MainTimer.Tick += MainTimer_Tick;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(10F, 25F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(1031, 898);
+        Controls.Add(MainStatusBar);
         Controls.Add(MainMenu);
         IsMdiContainer = true;
         MainMenuStrip = MainMenu;
@@ -136,6 +164,8 @@ partial class MainForm
         WindowState = FormWindowState.Maximized;
         MainMenu.ResumeLayout(false);
         MainMenu.PerformLayout();
+        MainStatusBar.ResumeLayout(false);
+        MainStatusBar.PerformLayout();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -154,4 +184,7 @@ partial class MainForm
     private ToolStripMenuItem MenuAbout;
     private NotifyIcon MyTasksNotifyIcon;
     private ContextMenuStrip MyTasksContextMenuStrip;
+    private StatusStrip MainStatusBar;
+    private System.Windows.Forms.Timer MainTimer;
+    private ToolStripStatusLabel ClockLabel;
 }
