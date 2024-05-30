@@ -62,7 +62,7 @@ public partial class MainForm : Form
         if (_taskForm != null)
             return;
 
-        _taskForm = new(this);
+        _taskForm = new(this, MainMenu);
         _taskForm.FormClosed += TaskForm_FormClosed;
         _taskForm.Show();
     }

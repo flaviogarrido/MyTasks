@@ -808,6 +808,66 @@
   <data name="media_stop_red" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\media_stop_red.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="MenuAutoIndentText" xml:space="preserve">
+    <value>Auto Indent selected text</value>
+  </data>
+  <data name="MenuCollapseSelectedBlockText" xml:space="preserve">
+    <value>Collapse selected block</value>
+  </data>
+  <data name="MenuCommentSelectedLinesText" xml:space="preserve">
+    <value>Comment selected lines</value>
+  </data>
+  <data name="MenuDecreaseIndentTabText" xml:space="preserve">
+    <value>Decrease Indent [Shift + Tab]</value>
+  </data>
+  <data name="MenuEditText" xml:space="preserve">
+    <value>&amp;Edit</value>
+  </data>
+  <data name="MenuExecuteMacroText" xml:space="preserve">
+    <value>Execute macro [Ctrl+E]</value>
+  </data>
+  <data name="MenuExportHTMLText" xml:space="preserve">
+    <value>HTML Format</value>
+  </data>
+  <data name="MenuExportRTFText" xml:space="preserve">
+    <value>RTF Format</value>
+  </data>
+  <data name="MenuExportText" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="MenuFindText" xml:space="preserve">
+    <value>&amp;Find</value>
+  </data>
+  <data name="MenuGoBackwardCtrlText" xml:space="preserve">
+    <value>Go Backward [Ctrl+ -]</value>
+  </data>
+  <data name="MenuGoForwardCtrlShiftText" xml:space="preserve">
+    <value>Go Forward [Ctrl+Shift+ -]</value>
+  </data>
+  <data name="MenuIncreaseIndentShiftTabText" xml:space="preserve">
+    <value>Increase Indent [Tab]</value>
+  </data>
+  <data name="MenuPrintText" xml:space="preserve">
+    <value>Print...</value>
+  </data>
+  <data name="MenuReplaceText" xml:space="preserve">
+    <value>&amp;Replace [Ctrl+H]</value>
+  </data>
+  <data name="MenuSetSelectedAsReadonlyText" xml:space="preserve">
+    <value>Set selected as readonly</value>
+  </data>
+  <data name="MenuSetSelectedAsWritableText" xml:space="preserve">
+    <value>Set selected as writable</value>
+  </data>
+  <data name="MenuStartStopMacroRecordingText" xml:space="preserve">
+    <value>Start/Stop macro recording [Ctrl+M]</value>
+  </data>
+  <data name="MenuTextToSpeechText" xml:space="preserve">
+    <value>Text to speech</value>
+  </data>
+  <data name="MenuUncommentSelectedLinesText" xml:space="preserve">
+    <value>Uncomment selected lines</value>
+  </data>
   <data name="messages" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\messages.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

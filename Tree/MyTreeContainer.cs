@@ -9,6 +9,9 @@ internal class MyTreeContainer
 
     public MyTreeContainer()
     {
+        _pkgUrgent = new();
+        _pkgImportant = new();
+        
         LoadRepository();
 
         if (_root == null)

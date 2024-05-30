@@ -2347,6 +2347,186 @@ namespace MyTasks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Auto Indent selected text.
+        /// </summary>
+        internal static string MenuAutoIndentText {
+            get {
+                return ResourceManager.GetString("MenuAutoIndentText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse selected block.
+        /// </summary>
+        internal static string MenuCollapseSelectedBlockText {
+            get {
+                return ResourceManager.GetString("MenuCollapseSelectedBlockText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Comment selected lines.
+        /// </summary>
+        internal static string MenuCommentSelectedLinesText {
+            get {
+                return ResourceManager.GetString("MenuCommentSelectedLinesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Decrease Indent [Shift + Tab].
+        /// </summary>
+        internal static string MenuDecreaseIndentTabText {
+            get {
+                return ResourceManager.GetString("MenuDecreaseIndentTabText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Edit.
+        /// </summary>
+        internal static string MenuEditText {
+            get {
+                return ResourceManager.GetString("MenuEditText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Execute macro [Ctrl+E].
+        /// </summary>
+        internal static string MenuExecuteMacroText {
+            get {
+                return ResourceManager.GetString("MenuExecuteMacroText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HTML Format.
+        /// </summary>
+        internal static string MenuExportHTMLText {
+            get {
+                return ResourceManager.GetString("MenuExportHTMLText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTF Format.
+        /// </summary>
+        internal static string MenuExportRTFText {
+            get {
+                return ResourceManager.GetString("MenuExportRTFText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        internal static string MenuExportText {
+            get {
+                return ResourceManager.GetString("MenuExportText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Find.
+        /// </summary>
+        internal static string MenuFindText {
+            get {
+                return ResourceManager.GetString("MenuFindText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go Backward [Ctrl+ -].
+        /// </summary>
+        internal static string MenuGoBackwardCtrlText {
+            get {
+                return ResourceManager.GetString("MenuGoBackwardCtrlText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go Forward [Ctrl+Shift+ -].
+        /// </summary>
+        internal static string MenuGoForwardCtrlShiftText {
+            get {
+                return ResourceManager.GetString("MenuGoForwardCtrlShiftText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Increase Indent [Tab].
+        /// </summary>
+        internal static string MenuIncreaseIndentShiftTabText {
+            get {
+                return ResourceManager.GetString("MenuIncreaseIndentShiftTabText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Print....
+        /// </summary>
+        internal static string MenuPrintText {
+            get {
+                return ResourceManager.GetString("MenuPrintText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &amp;Replace [Ctrl+H].
+        /// </summary>
+        internal static string MenuReplaceText {
+            get {
+                return ResourceManager.GetString("MenuReplaceText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set selected as readonly.
+        /// </summary>
+        internal static string MenuSetSelectedAsReadonlyText {
+            get {
+                return ResourceManager.GetString("MenuSetSelectedAsReadonlyText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set selected as writable.
+        /// </summary>
+        internal static string MenuSetSelectedAsWritableText {
+            get {
+                return ResourceManager.GetString("MenuSetSelectedAsWritableText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start/Stop macro recording [Ctrl+M].
+        /// </summary>
+        internal static string MenuStartStopMacroRecordingText {
+            get {
+                return ResourceManager.GetString("MenuStartStopMacroRecordingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Text to speech.
+        /// </summary>
+        internal static string MenuTextToSpeechText {
+            get {
+                return ResourceManager.GetString("MenuTextToSpeechText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uncomment selected lines.
+        /// </summary>
+        internal static string MenuUncommentSelectedLinesText {
+            get {
+                return ResourceManager.GetString("MenuUncommentSelectedLinesText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon messages {

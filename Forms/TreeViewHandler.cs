@@ -4,13 +4,13 @@ using System.Text;
 
 namespace MyTasks.Forms;
 
-internal class TreeViewHandler
+internal class TreeViewHandler : IDisposable
 {
     MyTreeContainer _treeContainer;
     TreeView _treeview;
 
     static FileInfo _treeFile;
-    static TreeView _instanceTreeView;
+    static TreeView _instanceTreeView = new();
 
     public event EventHandler<MyTreeItem>? OnRequestFileOpen;
 
@@ -34,8 +34,8 @@ internal class TreeViewHandler
             Dock = DockStyle.Fill,
             Location = new Point(0, 0),
             TabIndex = 0,
-            ForeColor = Color.LightGreen,
-            BackColor = Color.Black,
+            ForeColor = Config.Default.ColorTreeviewForeground(),
+            BackColor = Config.Default.ColorTreeviewBackground(),
             LabelEdit = true,
             AllowDrop = true,
         };
@@ -52,12 +52,13 @@ internal class TreeViewHandler
 
     private void Treeview_ItemDrag(object? sender, ItemDragEventArgs e)
     {
-        _treeview.DoDragDrop(e.Item, DragDropEffects.Move);
+        if (e.Item != null)
+            _treeview.DoDragDrop(e.Item, DragDropEffects.Move);
     }
 
     private void Treeview_DragEnter(object? sender, DragEventArgs e)
     {
-        if (e.Data.GetDataPresent(typeof(TreeNode)))
+        if (e.Data != null && e.Data.GetDataPresent(typeof(TreeNode)))
             e.Effect = DragDropEffects.Move;
         else
             e.Effect = DragDropEffects.None;
@@ -73,10 +74,13 @@ internal class TreeViewHandler
 
     private void Treeview_DragDrop(object? sender, DragEventArgs e)
     {
+        if (e.Data == null)
+            return;
+
         if (!e.Data.GetDataPresent(typeof(TreeNode)))
             return;
 
-        TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
+        TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode))!;
         // Obtem a posição do ponteiro do mouse sobre o TreeView
         Point targetPoint = _treeview.PointToClient(new Point(e.X, e.Y));
         TreeNode targetNode = _treeview.GetNodeAt(targetPoint);
@@ -143,10 +147,7 @@ internal class TreeViewHandler
     private static void ConfigureStyle(TreeNode treeNode, MyTreeItem treeItem)
     {
         if (treeItem.Style == MyTreeItemStyleInfo.Root)
-        {
-            //treeNode.NodeFont = new Font("Arial", 8, FontStyle.Bold);
-            treeNode.ForeColor = Color.LightBlue;
-        }
+            treeNode.ForeColor = Config.Default.ColorTreeviewRootForeground();
     }
 
     private static TreeNode CreateTreeNode(MyTreeItem treeItem, bool includeSubItems = false)
@@ -326,4 +327,7 @@ internal class TreeViewHandler
         return null;
     }
 
+    public void Dispose()
+    {
+    }
 }
