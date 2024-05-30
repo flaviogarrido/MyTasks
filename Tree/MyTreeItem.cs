@@ -5,29 +5,36 @@ internal class MyTreeItem
     public MyTreeItem()
     {
         Id = Guid.NewGuid();
-        ParentId = Guid.Empty;
+        Parent = null;
         Name = string.Empty;
         Classification = MyTreeClassInfo.None;
         Items = new();
         File = null;
         Properties = new();
         Style = MyTreeItemStyleInfo.Document;
+        IsRemoved = false;
     }
 
-    public MyTreeItem(string name, Guid parentId) : this()
+    public MyTreeItem(string name) : this()
     {
         Name = name;
-        ParentId = parentId;
+    }
+
+    public MyTreeItem(string name, MyTreeItem? parent) : this()
+    {
+        Name = name;
+        Parent = parent;
     }
 
     public Guid Id { get; set; }
-    public Guid ParentId { get; set; }
+    public MyTreeItem? Parent {  get; set; }
     public string Name { get; set; }
     public MyTreeClassInfo Classification { get; set; }
     public FileInfo? File { get; set; }
     public List<MyTreeItem> Items { get; set; }
     public Dictionary<string, string> Properties { get; set; }
     public MyTreeItemStyleInfo Style { get; set; }
+    public bool IsRemoved { get; set; }
 
     public static MyTreeItem Create(MyTreeItem treeItem, List<MyTreeItem> treeItems)
     {
@@ -44,15 +51,15 @@ internal class MyTreeItem
         return treeItem;
     }
 
-    public static MyTreeItem CreatePackage(string packageText, Guid parentId)
-        => new MyTreeItem(packageText, parentId)
+    public static MyTreeItem CreatePackage(string packageText, MyTreeItem parent)
+        => new MyTreeItem(packageText, parent)
         {
             Classification = MyTreeClassInfo.Package
         };
 
-    public static MyTreeItem CreateTask(string taskText, Guid parentId)
+    public static MyTreeItem CreateTask(string taskText, MyTreeItem parent)
     {
-        var newTask = new MyTreeItem(taskText, parentId)
+        var newTask = new MyTreeItem(taskText, parent)
         {
             Classification = MyTreeClassInfo.Task,
             Style = MyTreeItemStyleInfo.DocumentAdd
@@ -71,6 +78,11 @@ internal class MyTreeItem
         return newTask;
     }
 
+    internal void Remove()
+    {
+        IsRemoved = true;
+    }
+
     private static void DefineFile(MyTreeItem treeItem)
     {
         if (treeItem.Classification != MyTreeClassInfo.Task) 
@@ -83,17 +95,14 @@ internal class MyTreeItem
         treeItem.File = new FileInfo(filename);
     }
 
-    internal static MyTreeItem CreateFromString(string strTreeItem)
+    internal static MyTreeItem CreateFromString(string strTreeItem, MyTreeItem? parent)
     {
         var arrStringTreeItem = strTreeItem.Split(';');
-
-        var newTreeItem = new MyTreeItem()
+        var newTreeItem = new MyTreeItem(arrStringTreeItem[1], parent)
         {
             Id = new Guid(arrStringTreeItem[0]),
-            Name = arrStringTreeItem[1],
             Classification = (MyTreeClassInfo)int.Parse(arrStringTreeItem[2]),
             Style = (MyTreeItemStyleInfo)int.Parse(arrStringTreeItem[3]),
-            ParentId = new Guid(arrStringTreeItem[4]),
         };
         DefineFile(newTreeItem);
         return newTreeItem;
@@ -106,6 +115,6 @@ internal class MyTreeItem
             $"{Name};" +
             $"{(int)Classification};" +
             $"{(int)Style};" +
-            $"{ParentId}";
+            $"{Parent?.Id}";
     }
 }

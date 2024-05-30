@@ -9,6 +9,8 @@ internal class TreeViewHandler : IDisposable
     MyTreeContainer _treeContainer;
     TreeView _treeview;
 
+    bool _requestOpenFile = true;
+
     static FileInfo _treeFile;
     static TreeView _instanceTreeView = new();
 
@@ -39,15 +41,32 @@ internal class TreeViewHandler : IDisposable
             LabelEdit = true,
             AllowDrop = true,
         };
+        treeview.AfterSelect += Treeview_AfterSelect;
         treeview.KeyDown += Treeview_KeyDown;
         treeview.NodeMouseClick += TreeView_NodeMouseClick;
-        treeview.NodeMouseDoubleClick += TreeView_NodeMouseDoubleClick;
         treeview.AfterLabelEdit += Treeview_AfterLabelEdit;
         treeview.ItemDrag += new ItemDragEventHandler(Treeview_ItemDrag);
         treeview.DragEnter += new DragEventHandler(Treeview_DragEnter);
         treeview.DragOver += new DragEventHandler(Treeview_DragOver);
         treeview.DragDrop += new DragEventHandler(Treeview_DragDrop);
         return treeview;
+    }
+
+    private void Treeview_AfterSelect(object? sender, TreeViewEventArgs e)
+    {
+        if (!_requestOpenFile)
+        {
+            _requestOpenFile = true;
+            return;
+        }
+
+        var treeItem = e.Node?.Tag as MyTreeItem;
+        if (treeItem == null)
+            return;
+
+        OnRequestFileOpen?.Invoke(null, treeItem);
+
+        _treeview.Focus();
     }
 
     private void Treeview_ItemDrag(object? sender, ItemDragEventArgs e)
@@ -66,9 +85,8 @@ internal class TreeViewHandler : IDisposable
 
     private void Treeview_DragOver(object? sender, DragEventArgs e)
     {
+        _requestOpenFile = false;
         Point targetPoint = _treeview.PointToClient(new Point(e.X, e.Y));
-
-        // Seleciona o nó no local do ponteiro do mouse
         _treeview.SelectedNode = _treeview.GetNodeAt(targetPoint);
     }
 
@@ -81,20 +99,27 @@ internal class TreeViewHandler : IDisposable
             return;
 
         TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode))!;
-        // Obtem a posição do ponteiro do mouse sobre o TreeView
         Point targetPoint = _treeview.PointToClient(new Point(e.X, e.Y));
         TreeNode targetNode = _treeview.GetNodeAt(targetPoint);
 
         if (targetNode != null && draggedNode != targetNode)
         {
-            // Remove o nó arrastado de sua posição original
+            var from = draggedNode.Tag as MyTreeItem;
+            var to = targetNode.Tag as MyTreeItem;
+            if (from == null || to == null)
+                return;
+
+            from.Parent?.Items.Remove(from);
+            from.Parent = to;
+            to.Items.Add(from);
+
             draggedNode.Remove();
-            // Insere o nó arrastado abaixo do nó alvo
             targetNode.Nodes.Add(draggedNode);
             targetNode.Expand();
 
-            // Atualiza o nó selecionado
             _treeview.SelectedNode = draggedNode;
+            
+            SaveTreeView();
         }
     }
 
@@ -167,8 +192,11 @@ internal class TreeViewHandler : IDisposable
         if (e.Control && (e.KeyCode == Keys.Up || e.KeyCode == Keys.Down))
             ResizeFont(e);
 
+        else if (e.KeyCode == Keys.Insert && _treeview.SelectedNode != null)
+            CreateItem(_treeview.SelectedNode);
+
         else if (e.KeyCode == Keys.Delete && _treeview.SelectedNode != null)
-            DeleteTreeItem();
+            RemoveTreeNode(_treeview.SelectedNode);
 
         else if (e.KeyCode == Keys.F2 && _treeview.SelectedNode != null)
             RenameTreeItem();
@@ -184,10 +212,6 @@ internal class TreeViewHandler : IDisposable
         e.Handled = true;
     }
 
-    private void DeleteTreeItem()
-    {
-    }
-
     private void RenameTreeItem()
     {
         _treeview.SelectedNode.BeginEdit();
@@ -198,21 +222,8 @@ internal class TreeViewHandler : IDisposable
         if (e.Button == MouseButtons.Right)
         {
             _treeview.SelectedNode = e.Node;
-            TreeViewContextMenuHandler.Show(_treeview, e.Node, e.Location);
+            TreeViewContextMenuHandler.Show(this, _treeview, e.Node, e.Location);
         }
-    }
-
-    private void TreeView_NodeMouseDoubleClick(object? sender, TreeNodeMouseClickEventArgs e)
-    {
-        if (!e.Button.Equals(MouseButtons.Left))
-            return;
-
-        var treeItem = e.Node.Tag as MyTreeItem;
-        if (treeItem == null)
-            return;
-
-        OnRequestFileOpen?.Invoke(null, treeItem);
-
     }
 
     private void Treeview_AfterLabelEdit(object? sender, NodeLabelEditEventArgs e)
@@ -233,45 +244,72 @@ internal class TreeViewHandler : IDisposable
 
             e.CancelEdit = true;
             e.Node?.BeginEdit();
+            return;
         }
+
+        var treeitem = e.Node?.Tag as MyTreeItem;
+        if (treeitem != null)
+        {
+            treeitem.Name = e.Label;
+        }
+        SaveTreeView();
     }
 
-    internal static bool AddTask(string text, MyTaskType myTaskInfo)
+    internal void CreateItem(TreeNode node)
     {
-        var findText = string.Empty;
-        switch (myTaskInfo)
+        var text = Prompt.ShowDialog(Properties.Resources.AddTaskUrgentDialogTitle, Properties.Resources.AddTaskDialogLabel);
+        text = text.Replace(';', '.');
+
+        if (string.IsNullOrEmpty(text))
+            return;
+
+        TreeViewHandler.AddTask(text, MyTaskType.None, node);
+    }
+
+    internal static bool AddTask(string text, MyTaskType myTaskInfo, TreeNode? node = null)
+    {
+        if (node == null)
         {
-            case MyTaskType.Urgent:
-                findText = Properties.Resources.TreePackageUrgentText;
-                break;
-            case MyTaskType.Important:
-                findText = Properties.Resources.TreePackageImportantText;
-                break;
+            var findText = string.Empty;
+            switch (myTaskInfo)
+            {
+                case MyTaskType.Urgent:
+                    findText = Properties.Resources.TreePackageUrgentText;
+                    break;
+                case MyTaskType.Important:
+                    findText = Properties.Resources.TreePackageImportantText;
+                    break;
+            }
+            node = FindNodeByName(_instanceTreeView.Nodes[0].Nodes, findText);
         }
 
-        var packageTreeNode = FindNodeByName(_instanceTreeView.Nodes[0].Nodes, findText);
-        if (packageTreeNode == null)
+        if (node == null)
             return false;
 
-        var packageTreeItem = packageTreeNode.Tag as MyTreeItem;
+        var packageTreeItem = node.Tag as MyTreeItem;
         if (packageTreeItem == null)
             return false;
 
-        var newTask = MyTreeItem.CreateTask(text, packageTreeItem.Id);
+        var newTask = MyTreeItem.CreateTask(text, packageTreeItem);
         packageTreeItem.Items.Add(newTask);
 
-        BuildTreeView(packageTreeNode.Nodes, newTask);
-        packageTreeNode.Expand();
+        BuildTreeView(node.Nodes, newTask);
+        node.Expand();
 
+        SaveTreeView();
+        return true;
+    }
+
+    private static void SaveTreeView()
+    {
         StringBuilder sb = new();
         DumpTreeView(_instanceTreeView.Nodes[0].Tag as MyTreeItem, sb);
         WriteTreeFile(sb);
-        return true;
     }
 
     private static void DumpTreeView(MyTreeItem? myTreeItem, StringBuilder sb)
     {
-        if (myTreeItem == null) 
+        if (myTreeItem == null || myTreeItem.IsRemoved)
             return;
 
         sb.AppendLine(myTreeItem.ToString());
@@ -329,5 +367,16 @@ internal class TreeViewHandler : IDisposable
 
     public void Dispose()
     {
+    }
+
+    internal void RemoveTreeNode(TreeNode node)
+    {
+        var treeitem = node.Tag as MyTreeItem;
+        if (treeitem != null)
+        {
+            treeitem.Remove();
+            _treeview.Nodes.Remove(node);
+            SaveTreeView();
+        }
     }
 }

@@ -4,28 +4,78 @@ namespace MyTasks.Forms;
 
 internal class TreeViewContextMenuHandler
 {
-    internal static void Show(TreeView treeview, TreeNode node, Point location)
+    internal static void Show(TreeViewHandler handler, TreeView treeview, TreeNode node, Point location)
     {
         ContextMenuStrip menu = new();
 
-        AddMenuItem(Properties.Resources.CTMenuCreateTreeItem, menu, () => { MessageBox.Show("falta implementar"); });
-        AddMenuItem(Properties.Resources.CTMenuRemoveTreeItem, menu, () => { MessageBox.Show("falta implementar"); });
-        AddMenuItem(Properties.Resources.CTMenuRenameTreeItem, menu, () => { MessageBox.Show("falta implementar"); });
+        AddMenuItem(Properties.Resources.CTMenuCreateTreeItem, menu, () => { CreateItem(handler, node); });
+        AddMenuItem(Properties.Resources.CTMenuRemoveTreeItem, menu, () => { RemoveItem(handler, node); });
+        AddMenuItem(Properties.Resources.CTMenuRenameTreeItem, menu, () => { RenameItem(node); });
 
         menu.Items.Add("-");
-        AddMenuItem(Properties.Resources.CTMenuFind, menu, () => { MessageBox.Show("falta implementar"); });
-        AddMenuItem(Properties.Resources.CTMenuFindNext, menu, () => { MessageBox.Show("falta implementar"); });
-        AddMenuItem(Properties.Resources.CTMenuFindPrev, menu, () => { MessageBox.Show("falta implementar"); });
+        AddMenuItem(Properties.Resources.CTMenuFind, menu, () => { Find(); });
+        AddMenuItem(Properties.Resources.CTMenuFindNext, menu, () => { FindNext(); });
+        AddMenuItem(Properties.Resources.CTMenuFindPrev, menu, () => { FindPrev(); });
 
         menu.Items.Add("-");
-        AddMenuItem(Properties.Resources.CTSort, menu, () => { TreeViewHandler.Sort(node); });
-        AddMenuItem(Properties.Resources.CTExportTreeNode, menu, () => { CopyToClipboard(node); });
-        AddMenuItem(Properties.Resources.CTExpandAll, menu, () => { node.ExpandAll(); });
-        AddMenuItem(Properties.Resources.CTExpandCollapse, menu, () => { node.Collapse(); });
+        AddMenuItem(Properties.Resources.CTSort, menu, () => { Sort(node); });
+        AddMenuItem(Properties.Resources.CTExportTreeNode, menu, () => { ExportTreeNode(node); });
+        AddMenuItem(Properties.Resources.CTExpandAll, menu, () => { ExpandAll(node); });
+        AddMenuItem(Properties.Resources.CTExpandCollapse, menu, () => { ExpandCollapse(node); });
         
 
         if (menu.Items.Count > 0)
             menu.Show(treeview, location);
+    }
+
+    private static void CreateItem(TreeViewHandler handler, TreeNode node)
+    {
+        handler.CreateItem(node);
+    }
+
+    private static void RemoveItem(TreeViewHandler handler, TreeNode node)
+    {
+        handler.RemoveTreeNode(node);
+    }
+
+    private static void RenameItem(TreeNode node)
+    {
+        node.BeginEdit();
+    }
+
+    private static void Find()
+    {
+        MessageBox.Show("falta implementar");
+    }
+
+    private static void FindNext()
+    {
+        MessageBox.Show("falta implementar");
+    }
+
+    private static void FindPrev()
+    {
+        MessageBox.Show("falta implementar");
+    }
+
+    private static void Sort(TreeNode node)
+    {
+        TreeViewHandler.Sort(node);
+    }
+
+    private static void ExportTreeNode(TreeNode node)
+    {
+        CopyToClipboard(node);
+    }
+
+    private static void ExpandAll(TreeNode node)
+    {
+        node.ExpandAll();
+    }
+
+    private static void ExpandCollapse(TreeNode node)
+    {
+        node.Collapse();
     }
 
     private static void CopyToClipboard(TreeNode node)
