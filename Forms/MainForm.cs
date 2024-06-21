@@ -1,4 +1,5 @@
 ﻿using MyTasks.Models;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace MyTasks.Forms;
@@ -227,6 +228,43 @@ public partial class MainForm : Form
 
     private void MainTimer_Tick(object sender, EventArgs e)
     {
+        //Clock
         ClockLabel.Text = DateTime.Now.ToString("HH:mm:ss");
+
+        //Countdown
+        UpdateCountdown();
     }
+
+    private async void UpdateCountdown()
+    {
+        var countdownDateTime = Config.Default.Countdown;
+        if (countdownDateTime == null)
+        {
+            CountdownLabel.Visible = false;
+        }
+        else
+        {
+            CountdownLabel.Visible = true;
+            string result = await Task.Run(() => GetTimeUntil(countdownDateTime.Value));
+            CountdownLabel.Text = result;
+        }
+    }
+
+    public static string GetTimeUntil(DateTime futureDate)
+    {
+        TimeSpan timeSpan = futureDate.Subtract(DateTime.Now);
+
+        int weeks = -1;
+        if (timeSpan.Days >= 7)
+            weeks = timeSpan.Days / 7;
+
+        if (weeks == -1)
+            return Properties.Resources.StatusBarCountdownTextDays
+                .Replace("{0}", $"{timeSpan.Days}");
+        else
+            return Properties.Resources.StatusBarCountdownTextWeeks
+                .Replace("{0}", $"{timeSpan.Days}")
+                .Replace("{1}", $"{weeks}");
+    }
+
 }

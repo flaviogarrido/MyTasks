@@ -185,7 +185,7 @@ internal class Config
             AppConstants.CONFIG_KEY_DARKTHEME_TREEVIEW_FOREGROUND :
             AppConstants.CONFIG_KEY_LIGHTTHEME_TREEVIEW_FOREGROUND;
 
-        return GetColorByKey(key, IsDarkTheme ? "White" : "Black");
+        return GetColorByKey(key, IsDarkTheme ? "LightGreen" : "Black");
     }
 
     internal Color ColorTreeviewBackground()
@@ -194,7 +194,7 @@ internal class Config
             AppConstants.CONFIG_KEY_DARKTHEME_TREEVIEW_BACKGROUND :
             AppConstants.CONFIG_KEY_LIGHTTHEME_TREEVIEW_BACKGROUND;
 
-        return GetColorByKey(key, IsDarkTheme ? "DarkGray" : "LightGray");
+        return GetColorByKey(key, IsDarkTheme ? "Black" : "LightGray");
     }
 
     internal Color ColorTreeviewRootForeground()
@@ -288,4 +288,17 @@ internal class Config
         
         return new SolidBrush(color);
     }
+
+    internal DateTime? Countdown
+    {
+        get
+        {
+            var key = AppConstants.CONFIG_KEY_COUNTDOWN;
+            if (_keyValues.ContainsKey(key))
+                return DateTime.Parse(_keyValues[key][0]);
+
+            return null;
+        }
+    }
+
 }

@@ -1126,6 +1126,12 @@
   <data name="star_yellow_view" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\star_yellow_view.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="StatusBarCountdownTextDays" xml:space="preserve">
+    <value>Faltam {0} dias até a data.</value>
+  </data>
+  <data name="StatusBarCountdownTextWeeks" xml:space="preserve">
+    <value>Faltam {0} dias ou {1} semanas até a data.</value>
+  </data>
   <data name="stop" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\stop.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>

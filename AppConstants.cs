@@ -18,6 +18,7 @@ internal class AppConstants
     public const string CONFIG_KEY_WORKINGFOLDER = "working-folder";
     public const string CONFIG_KEY_WORKINGFILENAME = "working-filename";
 
+    public const string CONFIG_KEY_COUNTDOWN = "countdown";
 
     public const string CONFIG_KEY_NOTEPAD_HINTS = "hints";
     public const string CONFIG_KEY_DARKSCREEN_SHOWBUTTON = "darkscreen.closebutton.show";

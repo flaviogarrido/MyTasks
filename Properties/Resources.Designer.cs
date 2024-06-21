@@ -3387,6 +3387,24 @@ namespace MyTasks.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Faltam {0} dias até a data..
+        /// </summary>
+        internal static string StatusBarCountdownTextDays {
+            get {
+                return ResourceManager.GetString("StatusBarCountdownTextDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Faltam {0} dias ou {1} semanas até a data..
+        /// </summary>
+        internal static string StatusBarCountdownTextWeeks {
+            get {
+                return ResourceManager.GetString("StatusBarCountdownTextWeeks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon stop {

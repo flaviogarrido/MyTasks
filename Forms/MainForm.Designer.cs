@@ -43,6 +43,7 @@ partial class MainForm
         MyTasksContextMenuStrip = new ContextMenuStrip(components);
         MainStatusBar = new StatusStrip();
         ClockLabel = new ToolStripStatusLabel();
+        CountdownLabel = new ToolStripStatusLabel();
         MainTimer = new System.Windows.Forms.Timer(components);
         MainMenu.SuspendLayout();
         MainStatusBar.SuspendLayout();
@@ -128,10 +129,10 @@ partial class MainForm
         // MainStatusBar
         // 
         MainStatusBar.ImageScalingSize = new Size(24, 24);
-        MainStatusBar.Items.AddRange(new ToolStripItem[] { ClockLabel });
-        MainStatusBar.Location = new Point(0, 870);
+        MainStatusBar.Items.AddRange(new ToolStripItem[] { ClockLabel, CountdownLabel });
+        MainStatusBar.Location = new Point(0, 866);
         MainStatusBar.Name = "MainStatusBar";
-        MainStatusBar.Size = new Size(1031, 28);
+        MainStatusBar.Size = new Size(1031, 32);
         MainStatusBar.TabIndex = 3;
         MainStatusBar.Text = "statusStrip1";
         // 
@@ -139,8 +140,16 @@ partial class MainForm
         // 
         ClockLabel.Font = new Font("Arial", 9F);
         ClockLabel.Name = "ClockLabel";
-        ClockLabel.Size = new Size(56, 21);
+        ClockLabel.Size = new Size(56, 25);
         ClockLabel.Text = "--:--:--";
+        // 
+        // CountdownLabel
+        // 
+        CountdownLabel.BorderSides = ToolStripStatusLabelBorderSides.Left;
+        CountdownLabel.Font = new Font("Arial", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        CountdownLabel.Name = "CountdownLabel";
+        CountdownLabel.Size = new Size(127, 25);
+        CountdownLabel.Text = "Countdown: --";
         // 
         // MainTimer
         // 
@@ -187,4 +196,5 @@ partial class MainForm
     private StatusStrip MainStatusBar;
     private System.Windows.Forms.Timer MainTimer;
     private ToolStripStatusLabel ClockLabel;
+    private ToolStripStatusLabel CountdownLabel;
 }
