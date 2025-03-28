@@ -5,6 +5,8 @@ public partial class DarkForm : Form
     {
         InitializeComponent();
 
+        TopMost = true;
+
         StartPosition = FormStartPosition.Manual;
 
         if (!Config.Default.DarkScreenShowButton)
